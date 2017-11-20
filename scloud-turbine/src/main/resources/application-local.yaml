@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: scloud-turbine
+  jackson:
+      serialization:
+        indent_output: true
+  boot:
+    admin:
+      url: http://peer1:8090/
+      auto-registration: true
+      client:
+        name: ${spring.application.name}
+
+management:
+  security:
+    enabled: false
+
+security:
+  basic:
+    enabled: false
+
+server:
+  port: 6666
+
+turbine:
+  aggregator:
+    clusterConfig: scloud
+  appConfig: scloud-eureka,scloud-zuul,compute-service-b,compute-service-a,compute-feign
+  clusterNameExpression: metadata['cluster']
+  combine-host-port: true
+# 1. clusterNameExpressionָ����Ⱥ���ƣ�Ĭ�ϱ��ʽappName����ʱ��turbine.aggregator.clusterConfig��Ҫ������Ҫ��ص�Ӧ������
+# 2. ��clusterNameExpression: defaultʱ��turbine.aggregator.clusterConfig���Բ�д����ΪĬ�Ͼ���default
+# 3. ��clusterNameExpression: metadata['cluster']ʱ��������Ҫ��ص�Ӧ��������eureka.instance.metadata-map.cluster: ABC������Ҫ���ã�ͬʱturbine.aggregator.clusterConfig: ABC
+
+eureka:
+  instance:
+    preferIpAddress: false
+    statusPageUrlPath: /info.html
+    lease-renewal-interval-in-seconds: 3
+    lease-expiration-duration-in-seconds: 5
+    metadata-map:
+      cluster: scloud
+  client:
+    registry-fetch-interval-seconds: 3
+    serviceUrl:
+      defaultZone: http://peer1:1111/eureka/

@@ -1,0 +1,1 @@
+java -jar scloud-provider-calculate-b-0.0.1-SNAPSHOT.jar --spring.profiles.active=local

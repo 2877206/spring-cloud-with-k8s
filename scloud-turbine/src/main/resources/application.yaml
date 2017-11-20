@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: ${SERVICE_APPLICATION_NAME}
+  jackson:
+      serialization:
+        indent_output: true
+  boot:
+    admin:
+      url: http://${ADMIN_HOST_URL}:${ADMIN_HOST_PORT}/
+      auto-registration: true
+      client:
+        name: ${spring.application.name}
+
+management:
+  security:
+    enabled: false
+
+security:
+  basic:
+    enabled: false
+
+server:
+  port: ${SERVICE_HOST_PORT}
+
+turbine:
+  aggregator:
+    clusterConfig: scloud
+  appConfig: scloud-eureka,scloud-zuul,compute-service-b,compute-service-a,scloud-feign
+  clusterNameExpression: metadata['cluster']
+  combine-host-port: true
+
+eureka:
+  instance:
+    hostname: ${SERVICE_INSTANCE_NAME}
+    instance-id: ${eureka.instance.hostname}:${server.port}
+    preferIpAddress: false
+#    ip-address: ${SERVICE_HOST_IP}
+#    statusPageUrlPath: /info.html
+    lease-renewal-interval-in-seconds: 3
+    lease-expiration-duration-in-seconds: 5
+    metadata-map:
+      cluster: scloud
+  client:
+    registry-fetch-interval-seconds: 3
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVERS}

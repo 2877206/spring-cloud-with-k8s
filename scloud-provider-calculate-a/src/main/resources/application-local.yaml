@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: compute-service-a
+  jackson:
+      serialization:
+        indent_output: true
+  boot:
+    admin:
+      url: http://peer1:8090/
+      auto-registration: true
+      client:
+        name: ${spring.application.name}
+
+management:
+  security:
+    enabled: false
+
+security:
+  basic:
+    enabled: false
+
+server:
+  port: 2222
+
+eureka:
+  instance:
+    preferIpAddress: false
+    statusPageUrlPath: /info.html
+    lease-renewal-interval-in-seconds: 3
+    lease-expiration-duration-in-seconds: 5
+    metadata-map:
+      cluster: scloud
+#    hostname: compute-service-b
+#    instance-id: compute-service-b
+  client:
+    registry-fetch-interval-seconds: 3
+    serviceUrl:
+      defaultZone: http://peer1:1111/eureka/
+
+
+
+
+
+
+
+
+

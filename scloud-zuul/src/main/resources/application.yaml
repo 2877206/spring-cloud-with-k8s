@@ -1,0 +1,72 @@
+spring:
+  application:
+    name: ${SERVICE_APPLICATION_NAME}
+  jackson:
+      serialization:
+        indent_output: true
+  boot:
+    admin:
+      url: http://${ADMIN_HOST_URL}:${ADMIN_HOST_PORT}/
+      auto-registration: true
+      client:
+        name: ${spring.application.name}
+#spring.boot.admin.username=admin
+#spring.boot.admin.password=admin
+management:
+  security:
+    enabled: false
+
+security:
+  basic:
+    enabled: false
+
+server:
+  port: ${SERVICE_HOST_PORT}
+
+eureka:
+  instance:
+    hostname: ${SERVICE_INSTANCE_NAME}
+    instance-id: ${eureka.instance.hostname}:${server.port}
+    ip-address: ${SERVICE_HOST_IP}
+    prefer-ip-address: true
+    statusPageUrlPath: /info.html
+    lease-renewal-interval-in-seconds: 3
+    lease-expiration-duration-in-seconds: 5
+    metadata-map:
+      cluster: scloud
+  client:
+    registry-fetch-interval-seconds: 3
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVERS}
+
+endpoints:
+  health:
+    sensitive: false
+
+#logging:
+#  level:
+#    com:
+#      netflix:
+#        eureka: OFF
+#        discovery: OFF
+
+# routes to url
+#zuul.routes.api-a-url.path=/api-a-url/**
+#zuul.routes.api-a-url.url=http://localhost:2222/
+
+#Auto Discovery: serviceId
+zuul:
+  routes:
+    api-a:
+      path: /api-a/**
+      serviceId: compute-service-a
+    api-b:
+      path: /api-b/**
+      serviceId: compute-service-b
+    api-feign:
+      path: /api-feign/**
+      serviceId: compute-feign-consumer
+
+#http://peer1:8761/api-a/add?a=1&b=2
+
+

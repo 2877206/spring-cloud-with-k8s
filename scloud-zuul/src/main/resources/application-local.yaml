@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: scloud-zuul
+  jackson:
+      serialization:
+        indent_output: true
+  boot:
+    admin:
+      url: http://peer1:8090/
+      auto-registration: true
+      client:
+        name: ${spring.application.name}
+
+management:
+  security:
+    enabled: false
+
+security:
+  basic:
+    enabled: false
+
+server:
+  port: 8761
+
+eureka:
+  instance:
+    preferIpAddress: false
+    statusPageUrlPath: /info.html
+    lease-renewal-interval-in-seconds: 3
+    lease-expiration-duration-in-seconds: 5
+    metadata-map:
+      cluster: scloud
+  client:
+    registry-fetch-interval-seconds: 3
+    serviceUrl:
+      defaultZone: http://peer1:1111/eureka/
+
+
+#logging:
+#  level:
+#    com:
+#      netflix:
+#        eureka: OFF
+#        discovery: OFF
+
+# routes to url
+#zuul.routes.api-a-url.path=/api-a-url/**
+#zuul.routes.api-a-url.url=http://localhost:2222/
+
+#Auto Discovery: serviceId
+zuul:
+  routes:
+    api-a:
+      path: /api-a/**
+      erviceId: compute-service-a
+    api-b:
+      path: /api-b/**
+      serviceId: compute-service-b
+
+#http://peer1:8761/api-a/add?a=1&b=2
+
+

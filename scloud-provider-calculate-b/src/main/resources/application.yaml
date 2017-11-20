@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: ${SERVICE_APPLICATION_NAME}
+  jackson:
+      serialization:
+        indent_output: true
+  boot:
+    admin:
+      url: http://${ADMIN_HOST_URL}:${ADMIN_HOST_PORT}/
+      auto-registration: true
+      client:
+        name: ${spring.application.name}
+
+#spring.boot.admin.username=admin
+#spring.boot.admin.password=admin
+
+management:
+  security:
+    enabled: false
+
+security:
+  basic:
+    enabled: false
+
+server:
+  port: ${SERVICE_HOST_PORT}
+
+eureka:
+  instance:
+    preferIpAddress: true
+    ip-address: ${SERVICE_HOST_IP}
+    statusPageUrlPath: /info.html
+    lease-renewal-interval-in-seconds: 3
+    lease-expiration-duration-in-seconds: 5
+    metadata-map:
+      cluster: scloud
+    hostname: ${SERVICE_INSTANCE_NAME}
+    instance-id: ${eureka.instance.hostname}:${server.port}
+  client:
+    registry-fetch-interval-seconds: 3
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVERS}
